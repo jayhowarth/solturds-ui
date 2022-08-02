@@ -230,7 +230,7 @@ const River = styled.div`
     left:0px; 
     overflow:hidden; 
     white-space: nowrap;
-    animation: bannermove 10s linear infinite;
+    animation: bannermove 40s linear infinite;
   
   
     @keyframes bannermove {
