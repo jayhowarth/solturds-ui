@@ -84,6 +84,9 @@ const NFT = styled(Paper)`
 const Des = styled(NFT)`
   text-align: center;
   padding-top: 0px;
+  p {
+        font-size: 150%;
+  }
 `;
 
 
@@ -279,6 +282,7 @@ const GoldTitle = styled.h2`
   color: var(--title-text-color);
   font-family: 'Sedgwick Ave Display', cursive;
   text-align: center;
+  font-size: 250%
 
 `;
 
