@@ -1,24 +1,18 @@
 /* Customize your main colors in :root variables */
 :root {
-  --main-background-color: #ececed;
-  --card-background-color: None;
-  --card-background-lighter-color: None;
-  --main-text-color:#301d01;
-  --title-text-color:#472b00;
-  --button-text-color:#d98a00;
-  --balance-text-color:#734006;
+  --main-background-color: #121213;
+  --card-background-color: #51576D;
+  --card-background-lighter-color: #7A7F92;
+  --main-text-color:#F7F6F4;
+  --title-text-color:#3CBA8B;
 }
 
 body{
   background-color:var(--main-background-color);
-  background: url("img/tile-bb.png");
-  /* background-size: cover; */
- 
-  font-family: 'Patrick Hand', cursive; 
-  font-family: 'Sedgwick Ave Display', cursive;
-  font-family: 'Comic Sans MS', cursive;
-  /* font-family: 'Permanent Marker', cursive;
-  font-family: 'Sedgwick Ave Display', cursive; */
+  /*background: url("img/background.png");
+  background-size: cover;*/
+
+  font-family: 'Patrick Hand', cursive;
   font-size: 1.1em;
 }
 
@@ -29,6 +23,3 @@ h2, p{
 h3{
 font-weight: normal;
 }
-
-
-

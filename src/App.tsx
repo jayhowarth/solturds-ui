@@ -24,8 +24,6 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 
 import "./App.css";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Mint from "./Mint";
 import Home from "./Home";
 
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -47,13 +45,6 @@ const theme = createTheme({
         type: 'dark',
     },
     overrides: {
-        MuiPaper: {
-          root: {
-            "& .MuiPaper-root": {
-              boxShadow: "none"
-            }
-          },
-        },
         MuiButtonBase: {
             root: {
                 justifyContent: 'flex-start',
@@ -101,25 +92,12 @@ const App = () => {
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets} autoConnect={true}>
             <WalletModalProvider>
-              <Routes>
-                <Route path="/" element={ 
-                  <Home 
-                    candyMachineId={candyMachineId}
-                    connection={connection}
-                    txTimeout={txTimeout}
-                    rpcHost={rpcHost}
-                  />
-                }/>
-                <Route path="/mint" element={ 
-                  <Mint 
-                    candyMachineId={candyMachineId}
-                    connection={connection}
-                    txTimeout={txTimeout}
-                    rpcHost={rpcHost}
-                  />
-                }/>
-              </Routes>
-              
+              <Home
+                candyMachineId={candyMachineId}
+                connection={connection}
+                txTimeout={txTimeout}
+                rpcHost={rpcHost}
+              />
             </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
