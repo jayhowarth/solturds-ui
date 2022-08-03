@@ -34,9 +34,11 @@ const WalletContainer = styled.div`
 
 const MainTitle = styled.h1`
   font-size: 66px;
-  font-family: 'Raleway';
+//   font-family: 'Raleway';
+  font-family: 'turds';
+  src: ('turds'), url('turds.ttf') format('truetype')
   font-style: italic;
-  font-weight: 900;
+  font-weight: 1200;
   margin: 0 0 15px 0;
 `;
 
@@ -587,12 +589,12 @@ const Home = (props: HomeProps) => {
     <main>
       <MainContainer className="maincontainer">
         <LeftContainer className="leftcontainer">
-          <Image className="nft-image" src="yourimagehere.png" alt="Mint a YOURNFT" />
+          <Image className="nft-image" src="solturds.gif" alt="Mint a TURD" />
         </LeftContainer>
         <RightContainer className="rightcontainer">
-          <MainTitle className="maintitle">Your NFT Name</MainTitle>
+          <MainTitle className="maintitle">SolTurds</MainTitle>
           <InfoContainer>
-            <TotalItems className="totalitems">Total Items {itemsAvailable}</TotalItems>
+            <TotalItems className="totalitems">Total Turds {itemsAvailable}</TotalItems>
             <Price className="price">Price ◎ {isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " ") : (price + " ")} </Price>
             <IconContainer>
               <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="website.svg" /> </IconLink>
