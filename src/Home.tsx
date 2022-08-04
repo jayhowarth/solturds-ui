@@ -36,7 +36,7 @@ const MainTitle = styled.h1`
   font-size: 66px;
 //   font-family: 'Raleway';
   font-family: 'turds';
-  src: local('turds'), url('turds.ttf') format('truetype')
+  src: local('turds'), url('./fonts/turds.ttf') format('truetype')
   font-style: italic;
   font-weight: 1200;
   margin: 0 0 15px 0;
