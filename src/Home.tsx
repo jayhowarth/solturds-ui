@@ -592,7 +592,7 @@ const Home = (props: HomeProps) => {
           <Image className="nft-image" src="solturds.gif" alt="Mint a TURD" />
         </LeftContainer>
         <RightContainer className="rightcontainer">
-          <MainTitle className="maintitle">SolTurds</MainTitle>
+          <MainTitle className="font-turd">SolTurds</MainTitle>
           <InfoContainer>
             <TotalItems className="totalitems">Total Turds {itemsAvailable}</TotalItems>
             <Price className="price">Price ◎ {isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " ") : (price + " ")} </Price>
