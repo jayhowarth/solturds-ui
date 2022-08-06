@@ -278,9 +278,9 @@ const Image = styled.img`
 `;
 
 const TitleImage = styled.img`
-  height: 120px;
-  width: auto;
-  border-radius: 10px;
+  height: 100%; 
+  width: 100%;
+  object-fit: contain;
   box-shadow: 5px 5px 40px 5px rgba(0,0,0,0.5);
 
 `;
