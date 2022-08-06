@@ -277,6 +277,14 @@ const Image = styled.img`
 
 `;
 
+const TitleImage = styled.img`
+  height: 120px;
+  width: auto;
+  border-radius: 10px;
+  box-shadow: 5px 5px 40px 5px rgba(0,0,0,0.5);
+
+`;
+
 const BorderLinearProgress = styled(LinearProgress)`
   height: 10px !important;
   border-radius: 30px;
@@ -592,7 +600,9 @@ const Home = (props: HomeProps) => {
           <Image className="nft-image" src="solturds.gif" alt="Mint a TURD" />
         </LeftContainer>
         <RightContainer className="rightcontainer">
-          <MainTitle className="font-turd">SolTurds</MainTitle>
+          {/* <MainTitle className="font-turd">SolTurds</MainTitle> */}
+          <TitleImage src="st_logo.png" alt="SolTurds" />
+          <br/><br/>
           <InfoContainer>
             <TotalItems className="totalitems">Total Turds {itemsAvailable}</TotalItems>
             <Price className="price">Price ◎ {isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " ") : (price + " ")} </Price>
@@ -602,7 +612,7 @@ const Home = (props: HomeProps) => {
               <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="twitter.svg" /> </IconLink>
             </IconContainer>
           </InfoContainer>
-          <ProjectDescription>This front-end for Candy Machine V2 was made possible by Zaab Studio. Free to use & public to copy for everyone!</ProjectDescription>
+          <ProjectDescription>SolTurds are algo-generated, unique, disgusting, smelly, vomit inducing collectable faecal matter</ProjectDescription>
           <MintButtonContainer>
             {!isActive && !isEnded && candyMachine ?.state.goLiveDate && (!isWLOnly || whitelistTokenBalance > 0) ? (
               <Countdown
