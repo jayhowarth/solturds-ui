@@ -612,7 +612,7 @@ const Home = (props: HomeProps) => {
               <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="twitter.svg" /> </IconLink>
             </IconContainer>
           </InfoContainer>
-          <ProjectDescription>SolTurds are algo-generated, unique, disgusting, smelly, vomit inducing collectable faecal matter</ProjectDescription>
+          <ProjectDescription>SolTurds are an algo-generated, unique, disgusting, smelly, vomit inducing collection of faecal matter on the Solana blockchain</ProjectDescription>
           <MintButtonContainer>
             {!isActive && !isEnded && candyMachine ?.state.goLiveDate && (!isWLOnly || whitelistTokenBalance > 0) ? (
               <Countdown
