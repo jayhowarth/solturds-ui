@@ -34,9 +34,11 @@ const WalletContainer = styled.div`
 
 const MainTitle = styled.h1`
   font-size: 66px;
-  font-family: 'Raleway';
+//   font-family: 'Raleway';
+  font-family: 'turds';
+  src: local('turds'), url('./fonts/turds.ttf') format('truetype')
   font-style: italic;
-  font-weight: 900;
+  font-weight: 1200;
   margin: 0 0 15px 0;
 `;
 
@@ -271,6 +273,14 @@ const Image = styled.img`
   height: 500px;
   width: auto;
   border-radius: 10px;
+  box-shadow: 5px 5px 40px 5px rgba(0,0,0,0.5);
+
+`;
+
+const TitleImage = styled.img`
+  height: 100%; 
+  width: 100%;
+  object-fit: contain;
   box-shadow: 5px 5px 40px 5px rgba(0,0,0,0.5);
 
 `;
@@ -587,12 +597,14 @@ const Home = (props: HomeProps) => {
     <main>
       <MainContainer className="maincontainer">
         <LeftContainer className="leftcontainer">
-          <Image className="nft-image" src="yourimagehere.png" alt="Mint a YOURNFT" />
+          <Image className="nft-image" src="solturds.gif" alt="Mint a TURD" />
         </LeftContainer>
         <RightContainer className="rightcontainer">
-          <MainTitle className="maintitle">Your NFT Name</MainTitle>
+          {/* <MainTitle className="font-turd">SolTurds</MainTitle> */}
+          <TitleImage src="st_logo.png" alt="SolTurds" />
+          <br/><br/>
           <InfoContainer>
-            <TotalItems className="totalitems">Total Items {itemsAvailable}</TotalItems>
+            <TotalItems className="totalitems">Total Turds {itemsAvailable}</TotalItems>
             <Price className="price">Price ◎ {isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " ") : (price + " ")} </Price>
             <IconContainer>
               <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="website.svg" /> </IconLink>
@@ -600,7 +612,7 @@ const Home = (props: HomeProps) => {
               <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="twitter.svg" /> </IconLink>
             </IconContainer>
           </InfoContainer>
-          <ProjectDescription>This front-end for Candy Machine V2 was made possible by Zaab Studio. Free to use & public to copy for everyone!</ProjectDescription>
+          <ProjectDescription>SolTurds are an algo-generated, unique, disgusting, smelly, vomit inducing collection of faecal matter on the Solana blockchain</ProjectDescription>
           <MintButtonContainer>
             {!isActive && !isEnded && candyMachine ?.state.goLiveDate && (!isWLOnly || whitelistTokenBalance > 0) ? (
               <Countdown
