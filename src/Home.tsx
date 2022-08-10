@@ -607,9 +607,9 @@ const Home = (props: HomeProps) => {
             <TotalItems className="totalitems">Total Turds {itemsAvailable}</TotalItems>
             <Price className="price">Price ◎ {isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " ") : (price + " ")} </Price>
             <IconContainer>
-              <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="website.svg" /> </IconLink>
-              <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="discord.svg" /> </IconLink>
-              <IconLink className="infoIcon" href="#" target="__blank"> <InfoIcon src="twitter.svg" /> </IconLink>
+              <IconLink className="infoIcon" href="#" target="https://solturds.com"> <InfoIcon src="website.svg" /> </IconLink>
+              <IconLink className="infoIcon" href="#" target="https://discord.gg/dKVMVV5fCR"> <InfoIcon src="discord.svg" /> </IconLink>
+              <IconLink className="infoIcon" href="#" target="https://twitter.com/SolTurds"> <InfoIcon src="twitter.svg" /> </IconLink>
             </IconContainer>
           </InfoContainer>
           <ProjectDescription>SolTurds are an algo-generated, unique, disgusting, smelly, vomit inducing collection of faecal matter on the Solana blockchain</ProjectDescription>
