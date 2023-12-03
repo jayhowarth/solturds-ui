@@ -1,0 +1,154 @@
+
+Presentation
+
+1.	Introduction
+Within JP morgan storage is a critical function for the business to operate. With around 400,000 employees the landscape is vast.
+There are three types of storage, and they are file storage, block storage and object storage. Each of these approaches offers unique features and capabilities tailored to different use cases and requirements.
+Block storage divides data into fixed sized blocks with a unique identifier, these blocks are managed by the storage device or system, they are typically used as raw volumes and require a management system to organize and access data. 
+The more recent addition to storage is Object storage, it stores data as objects which includes metadata and a unique identifier. Unlike file storage it does not rely on a hierarchical structure this is commonly used within cloud 
+
+File storage is the most widely used method for organizing and managing data. It uses a structure that is built on the concept of files and directories that allows users and applications to interact in a familiar way. 
+File storage also known as Network Attached Storage or NAS is typically the less performant compared to block and object as it involves additional layers of abstraction. When accessing a file, the file system needs to interpret file paths and metadata before retrieving the data. 
+With the onset of Artificial Intelligence and Machine Learning using NAS to process data there is an increasing necessity to provide insights for customers on their data usage and provide them with the appropriate offering for individual use cases.
+
+The way file storage is offered in the bank is by customers ordering a storage volume and specifying what tier they require depending on their usage. The Tiers come in three offerings from Standard, High, Ultra which depend on the hardware it resides on the higher the tier the more performant the hardware.
+A `Storage cluster is a collection of storage nodes (which is where in terms of computing where the CPU and memory reside)
+The volume is then provisioned on a storage cluster, Once this has completed only the customer has access to that data and has to manage it.
+From engineering’s point of view the only concern is the continual running and performance of the underlying hardware.
+When a cluster is experiencing an issue this is usually related to the workload for a particular volume being too high and constraining the performance of the cluster for the rest of the volumes that reside on it. This can quickly escalate to a priority 1 incident especially if the application for instance is critical.
+There can be many reasons why this happens but a common cause is that the tier provisioned for the user has reached a ceiling either in total performance from the cluster or it has hit a quality of service limit applied to it.
+This all stems from the customers understanding of their usage and being on the wrong tier. On the other side of this they could have ordered the ultra tier but are not using it to its full potential so they can downsize and save money.
+
+Here lies the problem if we can use Machine Learning to predict or forecast usage engineering can proactively manage and inform customers leading to less incidents and a greater customer experience.
+
+Some Terminology
+IOPS (input/output operations per second) is the standard unit of measurement for the maximum number of reads and writes to non-contiguous storage locations.
+Throughput measures how many units of information a system can process in a period of time. It can refer to the number of I/O operations per second, but is typically measured in bytes per second.
+Latency measures the time between issuing a request and receiving a response. With regards to IOPS, latency is a measure of the length of time it takes for a single I/O request to be completed from the application's point of view.
+
+While there are other factors combining latency, IOPS and throughput measurements can help gauge performance of a storage volume. As these are all related the focus of this project was solely on total IOPS on a volume.
+
+2.	Data Collection
+
+Initially there were 2 sources of where data for file storage clusters could be obtained.
+The first is the internal company data lake where metrics are manually set up and polled to and secondly the vendor proprietary software which resides on a management server.
+
+Both are able to retrieve the data in JSON format for easy processing and both have fully featured APIs so that it is easier to target the data you require.
+
+Each method also has the data stored in hourly intervals going back 3-6 months.
+And both contain the same metrics requires IOPS, Throughput and Latency
+
+However, as a result of collecting and examining the data it was uncovered that the data lake polling had been set up incorrectly with it configured for statistical data which accumulated metrics over a defined period. As a result this is now resolved but leaves the data lake an unsuitable source.
+
+Due to amount of data out there and that the bank is global with many datacenters around the world a particular region was selected to pull all the volume data from
+
+
+3.	Pre-Processing
+
+After pulling all the data from the selected region there are still over 10,000 volumes
+
+Of these by iterating through the json files in code and querying the number of samples that are available for each volume found that 30% did not contain enough data for analysis
+
+To see how the data was represented the first 3 volumes of IOPS over time was shown graphically. This provided insight as to how to select which volumes to select for analysis.
+These graphs show that the usage of the second volume has only been in use for a selected period and the third barely at all.
+
+Statistical calculations were then made programmatically using standard deviation, median and interquartile range of each metric (including Latency and Throughput) and sort them by the most activity in each.
+
+An example is shown here where 5 volumes are displayed with the highest interquartile range, however by visually examining this it also highlights that extraordinary spikes in usage like in volume 14 here can skew the data depending of the method used. So by a combination of statistical analysis and visual representation 5 volumes were selected to analyse.
+
+Also as the data forms a very erratic graph it can be smoothed out by calculating the Simple Moving Average (or Rolling Average). 
+This calculates the average over a specified time window which helps reduce the noise and highlight the underlying trend as shown here
+
+4.	Methodology
+Time series analysis involves the examination of sequential data collected over time, allowing for the identification of patterns and trends. A popular example is the stock market where stock price trends shown at intervals down to the second.
+
+In the data used here each volume is treated individually, as it is clear from the visualizations that patterns if there are any differ greatly from volume to volume. 
+As a result it would be more insightful to run more than one Machine Learning model against each volume. 
+There are numerous models available that are suitable for time series data with their own advantages and disadvantages, the following have been selected for the diversity of what data best suits them.
+The first to be used is ARIMA which stands for Auto-Regressive Integrated Moving Average. is a popular and versatile time series forecasting model that combines autoregressive and moving average component.
+This is a popular and widely used 
+The advantages of ARIMA are that 
+•	It is relatively simple easy to understand and implement being a linear model
+•	Very effective for stationary time series data where the mean and variance are relatively consistent over time
+•	Even though it is a linear model is does not assume the relationship between the values is linear making it versatile for different types of time series data
+Disadvantages are that:
+•	Being a linear model it has limited handling of non-linear data
+•	It is sensitive to outliers
+•	And limited handling of seasonality
+
+The second model to be used is XGboost
+which stands for eXtreme Gradient Boosting, this is a powerful machine learning algorithm known for its efficiency and effectiveness in various tasks especially in structured time series data
+There are many Advantages for using  XGBoost some of these are:
+•	It is known for its superior predictive accuracy it often outperforms other machine learning algorithms in both bias andvariance
+•	Has a built in mechanism to handle missing data during the training process
+•	It incorporates regularization terms in its objective function such as L1 (Lasso) and L2 (Ridge)regularization This halp prevent overfitting by penalizing complex models
+•	It is flexible and versatile as it can be applied to various types of predictive modelling tasks including regression, classification and ranking in both binary and multiclass classification.
+•	It is effective at capturing non-linear relationships and interactions between variables making it suitable for datasets with complex patterns
+Disadvanages are:
+Especially with a large number of trees and depth it can be computationally intensive and may require significant resources for training
+XGBoost has several hyperparameters that need to be tuned for optimal performance. While this is an advantage when it comes to flexibility it also requires careful tuning which can be time consuming
+Despite providing feature importance scores the exact interpretation of the XGBoost model can be challenging due to its complexity
+
+
+Finally Prophet is a forecasting tool developed by Facebook for time series analysis
+The advantages it has are:
+It is specifically designed to handle time series data with strong seasonality and holidays where it can capture daily and yearly patterns effectively
+It can detect changepoints in the time series this is where the data exhibits a significant shift which is effective for structural changes in data
+It is flexible and can handle irregularly spaced data and is robust to missing data which makes it suitable to data with gaps
+It is user-friendly and requires minimal parameter tuning, for users with varying levels of expertise
+Disadvantages are:
+It has limited handling of highly non-linear patterns 
+It is less customizable compare to other forcasting models and users have limited control over the inner workings of the algorithm which can be a drawback for advanced users
+It is not suitable for all time series data its strengths lie in strong seasonality and holidays it may not be the best choice for irregular or non seasonal data
+Unlike other machine learning models prophet does not provide a direct measure of feature importance which can be a limitation for understanding the contribution of individual factors
+
+
+Results and Findings
+Calculation of ARIMA was performed using the ‘statsmodels’ python library. 
+The data is split into training and test sets but before training the ARIMA model the order is required, this involves determining three components,
+ p the order of autoregression, 
+d the degree of differencing, and 
+q order of moving average. 
+To calculate these hyperparameters a grid search method was used to determine the best values for p, d, and q. 
+This iterates through all possible combinations of a predefined set of values and evaluates the model calculating the root mean squared error (RMSE) and mean absolute error (MAE)
+The lowest values and its corresponding order is returned upon completion the results are shown in this table
+
+Predictions were then made on the test set using the best order from the grid search which produced the following graphical visualizations
+
+	Here you can see only one of the predictions remotely resembles the actual values and 3 produce straight lines signifying a poor predictive model in most circumstances
+
+
+
+XGBoost
+
+The xgboost python package was used in the calculation. 
+Two features were created by manipulating the dataframe by shifting the time index by 1 and 7 periods to assist the predictive model. 
+The data was then split into training and testing sets (20% test) with X representing the features (lag values 1 and 7) and y the predicted values on both testing and training sets.
+As there are numerous hyperparameter that can be defined a dictionary was defined then used with GridSearchCV from sklearn to run a cross validation of all the hyperparameter combinations finding the combination that produces the best mean squared error values shown in the table
+
+The selection of best hyperparameters were then used to fit, predict and evaluate the model producing the following graphs
+In contrast to ARIMA the predicted data for XGboost closely resembles the actual data and in some cases almost identically with very low RMSE and MAE values.
+
+Prophet
+Prophet is marketed as an “easy-to-use” tool, it therefore does a majority of the data manipulation for you in the prediction of time series. The dataframe however is required to be in a particular format with a ds column for the timestamp and the column for the prediction to be named y, in addition all time zone information needed to be stripped from the timestamp.
+There are two main hyperparameters changepoint_prior_scale which determines the flexibility of the trend and seasonality_prior_scale that controls the flexibility of the seasonality A dictionary was created with addition of another hyperparameter holidays_prior_scale then the model is fitted and cross validated within a for loop producing all RMSE and MAE values seen in the Table 
+
+The lowest value RMSE is then used to forecast and plot the resultant data.
+
+Prophet works in a very different way for predictions, it generates predictions for the entire data range specified in the input and predicts future dates for the periods specified in the model.
+although not as accurate as XGBoost it does show similar patterns to the actual values with reasonable low RMSE and MAE values but it appears to more of a conservative view of the lower values in the range.
+
+
+
+5.	Conclusion
+
+XGBoost is clearly the more accurate method for predicting total IOPS use on production file storage clusters, ARIMA performs the worst and Prophet seems to predict repeating patterns but doesn’t predict the more erratic structure of the data like XGBoost. 
+The use of this algorithm in production to predict usage would add value to the engineering team as a more proactive approach to customer engagement and hardware management. 
+The implementation though would be costly in processing power as each volume would have to be treated as a completely different case, with cross validation, fitting and predictions made at set intervals for all ~30,000 volumes globally.
+Investment would need to be made into adopting this ML approach, however when some systems process over a trillion dollars a day, downtime/latency can cost millions/billions so can easily be justified.  
+The Future
+
+The experiment only involves 5 volumes and although best efforts were made to select them based on different attributes other volumes may not exhibit seasonality resulting in it being difficult to predict. By selecting a wider range of volumes to test would be the first step to prove or dismiss the hypothesis, in addition bringing in throughput and latency as features and more granular operations such as read/write may help produce a better overall model.
+The addition and tuning of more hyperparameters may improve XGBoost even more but also trying other algorithms such as LSTM which is also highly regarded when it comes to time series data.
+Visualising the information in a 5-minute interval instead of an hour on high performing clusters would also produce interesting results at the more granular level potentially providing a more accurate long term prediction model.
+
